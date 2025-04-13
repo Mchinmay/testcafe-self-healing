@@ -12,7 +12,6 @@ test('Test with broken selector and fallback', async t => {
     
     if (!exists) {
         // If the element doesn't exist, attempt self-healing
-        console.log('⚠️ Element not found, attempting self-healing...');
         try {
             await handleTestFailure(t, new Error('Element not found: .non-existing-button'));
         } catch (error) {

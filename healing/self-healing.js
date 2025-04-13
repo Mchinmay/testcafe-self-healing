@@ -1,49 +1,32 @@
-const { Selector } = require('testcafe');
-const { SelectorError } = require('testcafe');
-// const fallbackSelectors = require('./fallback-selectors');
+// self-healing.js or healing-handler.js (your core utility)
+const fallbackSelectors = require('./fallback-selector')
 
 async function handleTestFailure(t, error) {
     const message = error?.message || '';
     console.log('⚠️ Test failed. Error:', message);
 
-    // Check if the error message contains "Element not found", which usually indicates a selector failure
     if (/Element not found/i.test(message)) {
-        console.log('🔁 Attempting self-healing...');
+        console.log('🔁 Initiating TestCafe Self-Healing Mechanism...');
         await applyFallbackSelectors(t);
     } else {
-        throw error; // Rethrow the error if it's not related to selector matching
+        throw error;
     }
 }
 
-
 async function applyFallbackSelectors(t) {
-    const selectors = [
-        {
-            selector: Selector('button').withText('Add Element'),
-            description: 'button with text "Add Element"'
-        },
-        {
-            selector: Selector('button#addElement'),
-            description: 'button with ID "addElement"'
-        },
-        {
-            selector: Selector('[onclick="addElement()"]'),
-            description: 'element with onclick="addElement()"'
-        }
-    ];    
+    for (const { selector, description } of fallbackSelectors) {
+        const sel = selector(); 
+        const exists = await sel.exists;
+        console.log(`🧐 Checking fallback selector: "${description}" — Exists: ${exists ? '✔️ Yes' : '❌ No'}`);
 
-    // Try each fallback selector until one works
-    for (const { selector, description } of selectors) {
-        const exists = await selector.exists;
-        console.log(`🧐 Trying fallback selector: ${description} — exists: ${exists}`);
-    
         if (exists) {
-            console.log(`✅ Using fallback selector: ${description}`);
-            await t.click(selector);
+            console.log(`✅ Successfully found element using fallback selector: "${description}"`);
+            await t.click(sel);
             return;
         }
     }
 
-    console.log('❌ No fallback selectors worked.');
+    console.log('❌ No suitable fallback selectors found. Test failed.');
 }
+
 module.exports = { handleTestFailure };
