@@ -1,23 +1,32 @@
 {
   "name": "testcafe-self-healing",
   "version": "1.0.0",
-  "description": "",
+  "description": "A utility for self-healing UI tests in TestCafe using fallback selectors.",
   "main": "index.js",
+  "keywords": [
+    "testcafe",
+    "testing",
+    "e2e",
+    "self-healing",
+    "fallback",
+    "automation",
+    "selectors",
+    "resilient-tests"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Add your test command here\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mchinmay/testcafe-self-healing.git"
+    "url": "https://github.com/Mchinmay/testcafe-self-healing"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Chinmay",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Mchinmay/testcafe-self-healing/issues"
   },
   "homepage": "https://github.com/Mchinmay/testcafe-self-healing#readme",
-  "devDependencies": {
-    "testcafe": "^3.7.2"
+  "dependencies": {
+    "testcafe": "^3.0.0"
   }
 }
